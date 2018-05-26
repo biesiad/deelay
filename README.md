@@ -10,12 +10,20 @@ Slow loading resources (images, scripts, etc) can break your code. Test it simul
 ## Installation
 ```sh
 $ npm install -g deelay
-$ deelay
-
-Starting delay on port 4567
 ```
 
 ## Usage
+```sh
+$ deelay
+Starting delay on port 4567
+```
+
+or with port environment variable
+
+```sh
+$ PORT=8080 deelay
+Starting delay on port 8080
+```
 
 ```html
 <img src="localhost:4567/1000/http://mysite.com/image.gif">
