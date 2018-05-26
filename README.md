@@ -1,3 +1,5 @@
+If you are looking for deelay ruby gem, you can find it [here](https://github.com/biesiad/deelay-ruby).
+
 # [Deelay.me](http://deelay.me)
 
 **Inline delay proxy for http resources**
