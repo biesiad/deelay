@@ -1,13 +1,10 @@
 {
-  "name": "deelay",
+  "name": "Deelay",
   "version": "1.0.0",
   "description": "Delay proxy for http resources",
   "main": "index.js",
   "bin": {
     "deelay": "bin/deelay.js"
-  },
-  "directories": {
-    "test": "test"
   },
   "scripts": {
     "test": "mocha"
