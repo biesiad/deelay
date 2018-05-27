@@ -1,6 +1,6 @@
 {
   "name": "deelay",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Delay proxy for http resources",
   "homepage": "https://github.com/biesiad/deelay",
   "main": "index.js",
