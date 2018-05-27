@@ -1,5 +1,5 @@
 {
-  "name": "Deelay",
+  "name": "deelay",
   "version": "1.0.0",
   "description": "Delay proxy for http resources",
   "main": "index.js",
