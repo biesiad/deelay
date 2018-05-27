@@ -2,6 +2,7 @@
   "name": "deelay",
   "version": "1.0.0",
   "description": "Delay proxy for http resources",
+  "homepage": "https://github.com/biesiad/deelay",
   "main": "index.js",
   "bin": {
     "deelay": "bin/deelay.js"
