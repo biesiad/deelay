@@ -1,116 +1,116 @@
-const app = require('../index.js');
-const nock = require('nock');
-const chai = require('chai');
-const expect = require('chai').expect;
-const chaiHttp = require('chai-http');
+const app = require("../index.js");
+const nock = require("nock");
+const chai = require("chai");
+const expect = require("chai").expect;
+const chaiHttp = require("chai-http");
 
 chai.use(chaiHttp);
 
-describe('deelay', function() {
-  it('redirects to url', function(done) {
-    nock('http://testurl.com')
-      .get('/')
-      .reply(200, 'Success');
+describe("deelay", function() {
+  it("redirects to url", function(done) {
+    nock("http://testurl.com")
+      .get("/")
+      .reply(200, "Success");
 
     chai
       .request(app)
-      .get('/1000/http://testurl.com')
+      .get("/1000/http://testurl.com")
       .end(function(err, res) {
-        expect(res.text).to.equal('Success');
-        expect(res).to.redirectTo('http://testurl.com/');
+        expect(res.text).to.equal("Success");
+        expect(res).to.redirectTo("http://testurl.com/");
         done();
       });
   });
 
-  it('redirects if protocol empty', function(done) {
-    nock('https://testurl.com')
-      .get('/')
-      .reply(200, 'Success');
+  it("redirects if protocol empty", function(done) {
+    nock("https://testurl.com")
+      .get("/")
+      .reply(200, "Success");
 
     chai
       .request(app)
-      .get('/1000/testurl.com')
+      .get("/1000/testurl.com")
       .end(function(err, res) {
-        expect(res.text).to.equal('Success');
-        expect(res).to.redirectTo('https://testurl.com/');
+        expect(res.text).to.equal("Success");
+        expect(res).to.redirectTo("https://testurl.com/");
         done();
       });
   });
 
-  it('redirects with https', function(done) {
-    nock('https://testurl.com')
-      .get('/')
-      .reply(200, 'Success');
+  it("redirects with https", function(done) {
+    nock("https://testurl.com")
+      .get("/")
+      .reply(200, "Success");
     chai
       .request(app)
-      .get('/1000/testurl.com')
+      .get("/1000/testurl.com")
       .end(function(err, res) {
-        expect(res.text).to.equal('Success');
-        expect(res).to.redirectTo('https://testurl.com/');
+        expect(res.text).to.equal("Success");
+        expect(res).to.redirectTo("https://testurl.com/");
         done();
       });
   });
 
-  it('redirects with path', function(done) {
-    nock('http://testurl.com')
-      .get('/path')
-      .reply(200, 'Success');
+  it("redirects with path", function(done) {
+    nock("http://testurl.com")
+      .get("/path")
+      .reply(200, "Success");
 
     chai
       .request(app)
-      .get('/1000/http://testurl.com/path')
+      .get("/1000/http://testurl.com/path")
       .end(function(err, res) {
-        expect(res.text).to.equal('Success');
-        expect(res).to.redirectTo('http://testurl.com/path');
+        expect(res.text).to.equal("Success");
+        expect(res).to.redirectTo("http://testurl.com/path");
         done();
       });
   });
 
-  it('redirects with query', function(done) {
-    nock('http://testurl.com')
-      .get('/')
-      .query({ 'key': 'value' })
-      .reply(200, 'Success');
+  it("redirects with query", function(done) {
+    nock("http://testurl.com")
+      .get("/")
+      .query({ key: "value" })
+      .reply(200, "Success");
 
     chai
       .request(app)
-      .get('/1000/http://testurl.com?key=value')
+      .get("/1000/http://testurl.com?key=value")
       .end(function(err, res) {
-        expect(res.text).to.equal('Success');
-        expect(res).to.redirectTo('http://testurl.com/?key=value');
+        expect(res.text).to.equal("Success");
+        expect(res).to.redirectTo("http://testurl.com/?key=value");
         done();
       });
   });
 
-  it('redirects with port', function(done) {
-    nock('http://testurl.com:1234')
-      .get('/')
-      .reply(200, 'Success');
+  it("redirects with port", function(done) {
+    nock("http://testurl.com:1234")
+      .get("/")
+      .reply(200, "Success");
 
     chai
       .request(app)
-      .get('/1000/http://testurl.com:1234')
+      .get("/1000/http://testurl.com:1234")
       .end(function(err, res) {
-        expect(res.text).to.equal('Success');
-        expect(res).to.redirectTo('http://testurl.com:1234/');
+        expect(res.text).to.equal("Success");
+        expect(res).to.redirectTo("http://testurl.com:1234/");
         done();
       });
   });
 
-  it('returns 404 if delay empty', function(done) {
+  it("returns 404 if delay empty", function(done) {
     chai
       .request(app)
-      .get('/testurl.com')
+      .get("/testurl.com")
       .end(function(err, res) {
         expect(res.status).to.equal(404);
         done();
       });
   });
 
-  it('returns 404 if url empty', function(done) {
+  it("returns 404 if url empty", function(done) {
     chai
       .request(app)
-      .get('/testurl.com')
+      .get("/testurl.com")
       .end(function(err, res) {
         expect(res.status).to.equal(404);
         done();
