@@ -1,7 +1,10 @@
 const express = require("express");
 const url = require("url");
+const cors = require("cors");
 
 const app = express();
+
+app.use(cors());
 
 app.get("/:delay(\\d+)/:url(*)", function(req, res) {
   const delay = req.params.delay;
