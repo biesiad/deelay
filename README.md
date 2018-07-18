@@ -6,28 +6,29 @@ If you are looking for deelay ruby gem, you can find it [here](https://github.co
 
 Slow loading resources (images, scripts, etc) can break your code. Test it simulating unexpected network conditions applied to specific resource.
 
-
-## Installation
+## Local installation
 ```sh
 $ npm install -g deelay
-```
-
-## Usage
-```sh
 $ deelay
 Starting delay on port 4567
 ```
 
-or with port environment variable
-
+## Docker installation
 ```sh
-$ PORT=8080 deelay
-Starting delay on port 8080
+$ docker build -t deelay .
+$ docker run -p 4567:4567 deelay
+Starting delay on port 4567
 ```
+
+## Usage
+
+or with port environment variable
 
 ```html
 <img src="localhost:4567/1000/http://mysite.com/image.gif">
 ```
+
+
 
 ## Development
 
