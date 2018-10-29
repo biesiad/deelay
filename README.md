@@ -20,8 +20,8 @@ Starting delay on port 4567
 ```
 
 ## Usage
-```html
-<img src="localhost:4567/1000/http://mysite.com/image.gif">
+```sh
+curl localhost:4567/1000/http://mysite.com/image.gif
 ```
 
 ### Tests
