@@ -14,7 +14,7 @@ describe("deelay", function() {
 
     chai
       .request(app)
-      .get("/1000/http://testurl.com")
+      .get("/10/http://testurl.com")
       .end(function(err, res) {
         expect(res.text).to.equal("Success");
         expect(res).to.redirectTo("http://testurl.com/");
@@ -29,7 +29,7 @@ describe("deelay", function() {
 
     chai
       .request(app)
-      .get("/1000/testurl.com")
+      .get("/10/testurl.com")
       .end(function(err, res) {
         expect(res.text).to.equal("Success");
         expect(res).to.redirectTo("https://testurl.com/");
@@ -43,7 +43,7 @@ describe("deelay", function() {
       .reply(200, "Success");
     chai
       .request(app)
-      .get("/1000/testurl.com")
+      .get("/10/testurl.com")
       .end(function(err, res) {
         expect(res.text).to.equal("Success");
         expect(res).to.redirectTo("https://testurl.com/");
@@ -58,7 +58,7 @@ describe("deelay", function() {
 
     chai
       .request(app)
-      .get("/1000/http://testurl.com/path")
+      .get("/10/http://testurl.com/path")
       .end(function(err, res) {
         expect(res.text).to.equal("Success");
         expect(res).to.redirectTo("http://testurl.com/path");
@@ -74,7 +74,7 @@ describe("deelay", function() {
 
     chai
       .request(app)
-      .get("/1000/http://testurl.com?key=value")
+      .get("/10/http://testurl.com?key=value")
       .end(function(err, res) {
         expect(res.text).to.equal("Success");
         expect(res).to.redirectTo("http://testurl.com/?key=value");
@@ -89,7 +89,7 @@ describe("deelay", function() {
 
     chai
       .request(app)
-      .get("/1000/http://testurl.com:1234")
+      .get("/10/http://testurl.com:1234")
       .end(function(err, res) {
         expect(res.text).to.equal("Success");
         expect(res).to.redirectTo("http://testurl.com:1234/");

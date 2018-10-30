@@ -1,22 +1,24 @@
-const express = require("express");
-const url = require("url");
+const http = require('http');
 
-const app = express();
+const server = http.createServer((request, response) => {
+  const path = request.url.split('/');
 
-app.get("/:delay(\\d+)/:url(*)", function(req, res) {
-  const delay = req.params.delay;
-  const query = url.parse(req.url).query;
-  let redirectUrl = req.params.url;
+  if (request.method === 'GET' && path.length >= 3) {
+    const delay = path[1];
+    let redirectUrl = path.slice(2).join('/');
 
-  if (!redirectUrl.match(/^http:|https:/))
-    redirectUrl = `https://${redirectUrl}`;
-  if (query) redirectUrl = `${redirectUrl}?${query}`;
+    if (!redirectUrl.match(/^http:|https:/))
+      redirectUrl = `https://${redirectUrl}`;
 
-  process.stdout.write(`${delay}... `);
-  setTimeout(function() {
-    process.stdout.write(`${redirectUrl}\n`);
-    res.redirect(redirectUrl);
-  }, delay);
+    setTimeout(() => {
+      response.statusCode = 302;
+      response.setHeader('Location', redirectUrl);
+      response.end();
+    }, delay);
+  } else {
+    response.statusCode = 404;
+    response.end();
+  }
 });
 
-module.exports = app;
+module.exports = server;

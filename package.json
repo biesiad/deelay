@@ -1,6 +1,6 @@
 {
   "name": "deelay",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Delay proxy for http resources",
   "repository": "https://github.com/biesiad/deelay",
   "homepage": "http://www.deelay.me/",
@@ -18,8 +18,5 @@
     "chai-http": "^4.0.0",
     "mocha": "^5.2.0",
     "nock": "^9.2.6"
-  },
-  "dependencies": {
-    "express": "^4.16.3"
   }
 }
