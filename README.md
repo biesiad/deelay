@@ -26,6 +26,5 @@ curl localhost:4567/1000/http://mysite.com/image.gif
 
 ### Tests
 ```sh
-npm install
-npm test
+node test/indexTest.js
 ```
