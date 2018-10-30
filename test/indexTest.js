@@ -1,119 +1,56 @@
-const app = require("../index.js");
-const nock = require("nock");
-const chai = require("chai");
-const expect = require("chai").expect;
-const chaiHttp = require("chai-http");
+const assert = require('assert');
+const http = require('http');
+const server = require('../index.js');
 
-chai.use(chaiHttp);
-
-describe("deelay", function() {
-  it("redirects to url", function(done) {
-    nock("http://testurl.com")
-      .get("/")
-      .reply(200, "Success");
-
-    chai
-      .request(app)
-      .get("/10/http://testurl.com")
-      .end(function(err, res) {
-        expect(res.text).to.equal("Success");
-        expect(res).to.redirectTo("http://testurl.com/");
-        done();
-      });
+const test = (url, callback) => {
+  server.listen(1234);
+  http.get(`http://localhost:1234${url}`, response => {
+    response.on('data', () => null);
+    response.on('end', () => {
+      callback(response);
+      server.close();
+    });
   });
+};
 
-  it("redirects if protocol empty", function(done) {
-    nock("https://testurl.com")
-      .get("/")
-      .reply(200, "Success");
+test('/10/http://testurl.com', response => {
+  assert.equal(response.statusCode, 302);
+  assert.equal(response.headers['location'], 'http://testurl.com');
+});
 
-    chai
-      .request(app)
-      .get("/10/testurl.com")
-      .end(function(err, res) {
-        expect(res.text).to.equal("Success");
-        expect(res).to.redirectTo("https://testurl.com/");
-        done();
-      });
-  });
+test('/10/testurl.com', response => {
+  assert.equal(response.statusCode, 302);
+  assert.equal(response.headers['location'], 'https://testurl.com');
+});
 
-  it("redirects with https", function(done) {
-    nock("https://testurl.com")
-      .get("/")
-      .reply(200, "Success");
-    chai
-      .request(app)
-      .get("/10/testurl.com")
-      .end(function(err, res) {
-        expect(res.text).to.equal("Success");
-        expect(res).to.redirectTo("https://testurl.com/");
-        done();
-      });
-  });
+test('/10/https://testurl.com', response => {
+  assert.equal(response.statusCode, 302);
+  assert.equal(response.headers['location'], 'https://testurl.com');
+});
 
-  it("redirects with path", function(done) {
-    nock("http://testurl.com")
-      .get("/path")
-      .reply(200, "Success");
+test('/10/http://testurl.com/path', response => {
+  assert.equal(response.statusCode, 302);
+  assert.equal(response.headers['location'], 'http://testurl.com/path');
+});
 
-    chai
-      .request(app)
-      .get("/10/http://testurl.com/path")
-      .end(function(err, res) {
-        expect(res.text).to.equal("Success");
-        expect(res).to.redirectTo("http://testurl.com/path");
-        done();
-      });
-  });
+test('/10/http://testurl.com?key=value', response => {
+  assert.equal(response.statusCode, 302);
+  assert.equal(response.headers['location'], 'http://testurl.com?key=value');
+});
 
-  it("redirects with query", function(done) {
-    nock("http://testurl.com")
-      .get("/")
-      .query({ key: "value" })
-      .reply(200, "Success");
+test('/10/http://testurl.com:1234', response => {
+  assert.equal(response.statusCode, 302);
+  assert.equal(response.headers['location'], 'http://testurl.com:1234');
+});
 
-    chai
-      .request(app)
-      .get("/10/http://testurl.com?key=value")
-      .end(function(err, res) {
-        expect(res.text).to.equal("Success");
-        expect(res).to.redirectTo("http://testurl.com/?key=value");
-        done();
-      });
-  });
+test('/http://testurl.com', response => {
+  assert.equal(response.statusCode, 404, 'This sucks');
+});
 
-  it("redirects with port", function(done) {
-    nock("http://testurl.com:1234")
-      .get("/")
-      .reply(200, "Success");
+test('/10', response => {
+  assert.equal(response.statusCode, 404);
+});
 
-    chai
-      .request(app)
-      .get("/10/http://testurl.com:1234")
-      .end(function(err, res) {
-        expect(res.text).to.equal("Success");
-        expect(res).to.redirectTo("http://testurl.com:1234/");
-        done();
-      });
-  });
-
-  it("returns 404 if delay empty", function(done) {
-    chai
-      .request(app)
-      .get("/testurl.com")
-      .end(function(err, res) {
-        expect(res.status).to.equal(404);
-        done();
-      });
-  });
-
-  it("returns 404 if url empty", function(done) {
-    chai
-      .request(app)
-      .get("/testurl.com")
-      .end(function(err, res) {
-        expect(res.status).to.equal(404);
-        done();
-      });
-  });
+test('', response => {
+  assert.equal(response.statusCode, 404);
 });
