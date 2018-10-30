@@ -54,3 +54,7 @@ test('/10', response => {
 test('', response => {
   assert.equal(response.statusCode, 404);
 });
+
+test('/10/http://testurl.com', response => {
+  assert.equal(response.headers['access-control-allow-origin'], '*');
+});

@@ -16,6 +16,7 @@ const server = http.createServer((request, response) => {
 
       response.statusCode = 302;
       response.setHeader('Location', redirectUrl);
+      response.setHeader('Access-Control-Allow-Origin', '*');
       response.end();
     }, delay);
   } else {
