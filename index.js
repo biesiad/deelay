@@ -19,6 +19,12 @@ const server = http.createServer((request, response) => {
       response.setHeader('Access-Control-Allow-Origin', '*');
       response.end();
     }, delay);
+  } else if (request.method === 'OPTIONS') {
+    response.statusCode = 200;
+    response.setHeader('Access-Control-Allow-Origin', '*');
+    response.setHeader('Access-Control-Allow-Headers', request.headers['access-control-request-headers'] || '');
+    response.setHeader('Access-Control-Allow-Methods', request.headers['access-control-request-methods'] || '');
+    response.end();
   } else {
     response.statusCode = 404;
     response.end();
