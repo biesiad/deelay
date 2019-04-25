@@ -9,7 +9,7 @@
     "deelay": "bin/deelay.js"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "node test/indexTest.js"
   },
   "author": "Grzegorz Biesiadecki",
   "license": "MIT"
