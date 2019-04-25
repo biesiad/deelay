@@ -2,6 +2,8 @@ If you are looking for deelay ruby gem, you can find it [here](https://github.co
 
 # [Deelay.me](http://deelay.me)
 
+[![CircleCI](https://circleci.com/gh/biesiad/deelay.svg?style=svg)](https://circleci.com/gh/biesiad/deelay)
+
 **Inline delay proxy for http resources**
 Slow loading resources (images, scripts, etc) can break your code. Test it simulating unexpected network conditions applied to specific resource.
 
