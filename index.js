@@ -1,6 +1,4 @@
-const http = require('http');
-
-const server = http.createServer((request, response) => {
+module.exports = (request, response) => {
   const path = request.url.split('/');
   const delay = path[1];
   let redirectUrl = path.slice(2).join('/');
@@ -29,6 +27,4 @@ const server = http.createServer((request, response) => {
     response.statusCode = 404;
     response.end();
   }
-});
-
-module.exports = server;
+};
