@@ -2,7 +2,6 @@ const assert = require('assert');
 const http = require('http');
 const deelay = require('../index.js');
 
-
 const test = async (options, callback) => {
   const server = http.createServer(deelay).listen(1234);
   return new Promise(resolve => {

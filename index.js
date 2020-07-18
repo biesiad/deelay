@@ -1,4 +1,4 @@
-module.exports = (request, response) => {
+module.exports = (request, response, stdout=process.stdout) => {
   const path = request.url.split('/');
   const delay = path[1];
   let redirectUrl = path.slice(2).join('/');
@@ -7,11 +7,10 @@ module.exports = (request, response) => {
     if (!redirectUrl.match(/^(http|https):/)) {
       redirectUrl = `https://${redirectUrl}`;
     }
-    process.stdout.write(`${delay}... `);
+    stdout && stdout.write(`${delay}... `);
 
     setTimeout(() => {
-      process.stdout.write(`${redirectUrl}\n`);
-
+      stdout && stdout.write(`${redirectUrl}\n`);
       response.statusCode = 302;
       response.setHeader('Location', redirectUrl);
       response.setHeader('Access-Control-Allow-Origin', '*');
