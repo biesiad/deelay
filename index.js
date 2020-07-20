@@ -1,4 +1,4 @@
-module.exports = (request, response, stdout=process.stdout) => {
+module.exports = (request, response, stdout) => {
   const path = request.url.split('/');
   const delay = path[1];
   let redirectUrl = path.slice(2).join('/');

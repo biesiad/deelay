@@ -2,7 +2,7 @@ const assert = require('assert');
 const http = require('http');
 const deelay = require('../index.js');
 
-const test = async (options, callback) => {
+const test = async (message, options, callback) => {
   const server = http.createServer(deelay).listen(1234);
   return new Promise(resolve => {
     http.get(
@@ -24,58 +24,57 @@ const test = async (options, callback) => {
 };
 
 (async () => {
-  await test({ path: '/10/http://testurl.com' }, response => {
+  await test('redirects to url with http://', { path: '/10/http://testurl.com' }, response => {
     assert.equal(response.statusCode, 302);
     assert.equal(response.headers['location'], 'http://testurl.com');
   });
 
-  await test({ path: '/10/testurl.com' }, response => {
+  await test('add https to url without protocol', { path: '/10/testurl.com' }, response => {
     assert.equal(response.statusCode, 302);
     assert.equal(response.headers['location'], 'https://testurl.com');
   });
 
-  await test({ path: '/10/testurl.com' }, response => {
+  await test('redirects to url with https://', { path: '/10/https://testurl.com' }, response => {
     assert.equal(response.statusCode, 302);
     assert.equal(response.headers['location'], 'https://testurl.com');
   });
 
-  await test({ path: '/10/https://testurl.com' }, response => {
-    assert.equal(response.statusCode, 302);
-    assert.equal(response.headers['location'], 'https://testurl.com');
-  });
-
-  await test({ path: '/10/http://testurl.com/path' }, response => {
+  await test('redirects to url with path', { path: '/10/http://testurl.com/path' }, response => {
     assert.equal(response.statusCode, 302);
     assert.equal(response.headers['location'], 'http://testurl.com/path');
   });
 
-  await test({ path: '/10/http://testurl.com?key=value' }, response => {
+  await test('redirects to url with query string', { path: '/10/http://testurl.com?key=value' }, response => {
     assert.equal(response.statusCode, 302);
     assert.equal(response.headers['location'], 'http://testurl.com?key=value');
   });
 
-  await test({ path: '/10/http://testurl.com:1234' }, response => {
+  await test('redirects to url with hostname:port', { path: '/10/http://testurl.com:1234' }, response => {
     assert.equal(response.statusCode, 302);
     assert.equal(response.headers['location'], 'http://testurl.com:1234');
   });
 
-  await test({ path: '/http://testurl.com' }, response => {
+  await test('returns 404 when delay param missing', { path: '/http://testurl.com' }, response => {
     assert.equal(response.statusCode, 404, 'This sucks');
   });
 
-  await test({ path: '/10' }, response => {
+  await test('responds with 404 when delay param malformed', { path: '/1000%20/http://testurl.com' }, response => {
     assert.equal(response.statusCode, 404);
   });
 
-  await test({ path: '' }, response => {
+  await test('returns 404 when url missing', { path: '/10' }, response => {
     assert.equal(response.statusCode, 404);
   });
 
-  await test({ path: '/10/http://testurl.com' }, response => {
-    assert.equal(response.headers['access-control-allow-origin'], '*');
+  await test('returns 404 on / call', { path: '' }, response => {
+    assert.equal(response.statusCode, 404);
   });
 
-  await test(
+  await test('responds with CORS headers for GET requests', { path: '/10/http://testurl.com' }, response => {
+      assert.equal(response.headers['access-control-allow-origin'], '*');
+    });
+
+  await test('responds and forwards CORS headers for OPTIONS requests',
     {
       path: '/10/http://testurl.com',
       method: 'options',
